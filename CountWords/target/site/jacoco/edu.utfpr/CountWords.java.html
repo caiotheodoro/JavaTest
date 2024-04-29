@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CountWords.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">countwords</a> &gt; <a href="index.source.html" class="el_package">edu.utfpr</a> &gt; <span class="el_source">CountWords.java</span></div><h1>CountWords.java</h1><pre class="source lang-java linenums">package edu.utfpr;
+
+
+<span class="fc" id="L4">public class CountWords {</span>
+    public int count(String str) {
+<span class="fc" id="L6">        int words = 0;</span>
+<span class="fc" id="L7">        char last = ' ';</span>
+
+        // Itera através de cada caractere na string
+<span class="fc bfc" id="L10" title="All 2 branches covered.">        for (int i = 0; i &lt; str.length(); i++) {</span>
+
+            // Se o caractere atual não for uma letra e o caractere anterior foi &quot;s&quot; ou &quot;r&quot;, temos uma palavra!
+<span class="pc bpc" id="L13" title="1 of 6 branches missed.">            if (!Character.isLetter(str.charAt(i)) &amp;&amp; (last == 's' || last == 'r')) {</span>
+<span class="fc" id="L14">                words++; </span>
+            }
+
+            //Armazena o caracter atual como o &quot;último&quot;
+<span class="fc" id="L18">            last = str.charAt(i);</span>
+        }
+
+        // Conta mais uma palavra se a string terminar em &quot;r&quot; ou &quot;s&quot;
+<span class="pc bpc" id="L22" title="1 of 4 branches missed.">        if (last == 'r' || last == 's') {</span>
+<span class="fc" id="L23">            words++;</span>
+        }
+<span class="fc" id="L25">        return words;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
