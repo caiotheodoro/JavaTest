@@ -1,0 +1,179 @@
+---
+title: "Relatório Trabalho Prático de Teste Baseado em Especificação"
+subtitle: "Método para adição de números inteiros muito, muito grandes"
+author: "Caio Theodoro"
+toc: true
+toc-title: Sumário
+number-sections: false
+highlight-style: pygments
+format: 
+  html:
+    embed-resources: true
+
+engine: knitr
+---
+<!-- public class Add {
+    public List<Integer> add(List<Integer> left, List<Integer> right) { //recebe duas listas de inteiros e retorna uma lista de inteiros
+    if (left == null || right == null)  //se a lista da esquerda ou da direita for nula, retorna nulo
+        return null; //retorna nulo
+    Collections.reverse(left); //inverte a lista da esquerda
+    Collections.reverse(right);   //inverte a lista da direita
+    LinkedList<Integer> result = new LinkedList<>(); //cria uma lista ligada de inteiros
+    int carry = 0; //cria uma variável carry que recebe 0
+    for (int i = 0; i < Math.max(left.size(), right.size()); i++) { //para i de 0 até o tamanho máximo da lista da esquerda ou da direita
+        int leftDigit = left.size() > i ? left.get(i) : 0; //se o tamanho da lista da esquerda for maior que i, leftDigit recebe o valor da lista da esquerda na posição i, senão, leftDigit recebe 0
+        int rightDigit = right.size() > i ? right.get(i) : 0; //se o tamanho da lista da direita for maior que i, rightDigit recebe o valor da lista da direita na posição i, senão, rightDigit recebe 0
+
+        if ((leftDigit < 0) || (leftDigit > 9) || (rightDigit) < 0 || (rightDigit > 9)) //se leftDigit for menor que 0 ou maior que 9 ou rightDigit for menor que 0 ou maior que 9
+            throw new IllegalArgumentException(); //lança uma exceção de argumento ilegal
+
+        int sum = leftDigit + rightDigit + carry; //soma leftDigit, rightDigit e carry e atribui a sum
+        result.addFirst(sum % 10); //adiciona o resto da divisão de sum por 10 no início da lista result
+        carry = sum / 10; //carry recebe a divisão inteira de sum por 10
+    }
+
+    return result; //retorna a lista result
+    }
+    Descrição geral
+Considere a descrição mostrada a seguir de um pequeno método que faz a operação de adição de dois números de qualquer tamanho. Perceba que esse problema parece ser um toy example, mas é útil em computação científica uma vez que para certas aplicações é necessário fazer cáculos matemáticos com números inteiros muito, muito grandes. Nessa situação, os tipos básicos e os operadores matemáticos das linguagens de programação não suportam o cáculo.
+
+Especificação de requisitos
+O método deve:
+
+Receber como entrada duas variáveis chamadas left e right que representam dois números inteiros grandes:
+left porque é o número à esquerda da operação de adição;
+right porque é o número à direita da operação de adição;
+Cada uma é representada como uma lista de dígitos;
+Produzir como saída a soma (como uma lista de dígitos) dos números representados nas duas variáveis;
+Cada elemento nas listas de dígitos left e right deve ser um número de [0-9]:
+Uma IllegalArgumentException é lançada se esta pré-condição não for mantida;
+Caso left ou right seja:
+nulo, deve-se retornar null;
+uma lista vazia, considere que é o número 0;
+Exemplo:
+Os números 23 e 42 estão na lista (left) como dois elementos [2,3], e na lista (right) como dois elementos [4,2].
+Como saída, é produzida uma lista com dois elementos [6,5], uma vez que 
+
+} -->
+
+## Introdução
+
+Este documento descreve o processo de criação de casos de teste para o método `add` da classe `Add`.
+
+## Passo 2 - Explorar o funcionamento do programa
+
+Lendo as especificações, percebemos já que o método `add` recebe duas listas de inteiros e retorna uma lista de inteiros. Então como primeiro passo, podemos já validar testes a se fazer com essa estrutura, temos:
+
+- ``left`` e ``right`` nulos; (deve-se retornar nulo)
+  - ``left`` nulo e ``right`` não nulo;
+  - ``left`` não nulo e ``right`` nulo;
+
+- ``left`` e ``right`` vazios;
+  - ``left`` vazio e ``right`` não vazio;
+  - ``left`` não vazio e ``right`` vazio;
+
+- ``left`` e ``right`` com um elemento;
+  - ``left`` com um elemento e ``right`` com mais de um elemento;
+  - ``left`` com mais de um elemento e ``right`` com um elemento;
+
+- ``left`` e ``right`` com 2 ou mais elementos;
+  - ``left`` e ``right`` com o mesmo número de elementos;
+  - ``left`` com mais elementos que ``right``;
+  - ``left`` com menos elementos que ``right``.
+
+Além disso, também podemos ter casos onde qualquer numero é negativo ou com ponto flutuante, que devem lançar uma exceção.
+
+- ``left`` e ``right`` com um elemento, sendo um deles negativo;
+- ``left`` e ``right`` com um elemento, sendo um deles com ponto flutuante.
+
+Lendo mais sobre as regras do programa, percebemos que os numeros só podem estar entre 0 e 9, então temos mais casos de teste:
+
+- ``left`` e ``right`` com um elemento, sendo um deles maior que 9;
+- ``left`` e ``right`` com um elemento, sendo um deles menor que 0.
+
+(Nesse casos, deve ser lançada uma exceção IllegalArgumentException)
+
+Por fim, temos os casos de teste de casos válidos:	
+
+- ``left`` e ``right`` com um elemento, sendo ambos entre 0 e 9;
+- ``left`` e ``right`` com mais de um elemento, sendo todos entre 0 e 9.
+- ``left`` e ``right`` com tamanhos aleatórios, sendo todos entre 0 e 9.
+
+
+
+
+## Passo 3 - Identificar as partições
+
+Agora, vamos identificar as partições para cada entrada do método `add`.
+
+- Partição 1 (Inválido):
+  - ``left`` e ``right`` nulos;
+  - ``left`` nulo e ``right`` não nulo;
+  - ``left`` não nulo e ``right`` nulo;
+
+  - ``left`` e ``right`` vazios;
+  - ``left`` vazio e ``right`` não vazio;
+  - ``left`` não vazio e ``right`` vazio;
+
+  - ``left`` e ``right`` com um elemento, sendo um deles negativo;
+  - ``left`` e ``right`` com um elemento, sendo um deles com ponto flutuante;
+  - ``left`` e ``right`` com um elemento, sendo um deles maior que 9;
+  - ``left`` e ``right`` com um elemento, sendo um deles menor que 0.
+
+- Partição 2 (Válido):
+
+  - ``left`` e ``right`` com um elemento, sendo ambos entre 0 e 9;
+  - ``left`` e ``right`` com mais de um elemento, sendo todos entre 0 e 9.
+  - ``left`` e ``right`` com tamanhos aleatórios, sendo todos entre 0 e 9.
+
+- Partição 3 (Exceção):
+
+  - ``left`` e ``right`` com um elemento, sendo um deles negativo;
+  - ``left`` e ``right`` com um elemento, sendo um deles com ponto flutuante.
+
+
+## Passo 4 - Identificar os valores limite
+
+Limites próximos para teste em valores limites:
+
+- ``left`` e ``right`` com algum elemento 0
+- ``left`` e ``right`` com algum elemento 1
+- ``left`` e ``right`` com algum elemento -1
+- ``left`` e ``right`` com algum elemento 8
+- ``left`` e ``right`` com algum elemento 9
+- ``left`` e ``right`` com algum elemento 10
+
+
+## Passo 5 -  Derivar os casos de teste
+
+Idealmente, combinaríamos todas as partições que criamos para cada uma das entradas: 10 x 3 x 2 = 60 casos de teste. No entanto, isso é impraticável. Portanto, vamos selecionar um subconjunto desses casos de teste.
+
+- Partição 1 (Inválido):
+  - ``left`` e ``right`` nulos;
+  - ``left`` nulo e ``right`` não nulo;
+  - ``left`` não nulo e ``right`` nulo;
+
+  - ``left`` e ``right`` vazios;
+  - ``left`` vazio e ``right`` não vazio;
+  - ``left`` não vazio e ``right`` vazio;
+
+  - ``left`` e ``right`` com um elemento, sendo um deles negativo;
+  - ``left`` e ``right`` com um elemento, sendo um deles com ponto flutuante;
+  - ``left`` e ``right`` com um elemento, sendo um deles maior que 9;
+  - ``left`` e ``right`` com um elemento, sendo um deles menor que 0.
+
+- Partição 2 (Válido):
+
+  - ``left`` e ``right`` com um elemento, sendo ambos entre 0 e 9;
+  - ``left`` e ``right`` com mais de um elemento, sendo todos entre 0 e 9.
+  - ``left`` e ``right`` com tamanhos aleatórios, sendo todos entre 0 e 9.
+
+  Assim, reduzimos para 10 x 3 = 30 casos de teste.
+
+
+## Passo 6 - Automatizar os casos de teste usando JUnit
+
+Para a implementação foram feitos os casos isolados, uma função para geração de listas aleatórias, e um test para os casos válidos.
+
+
+Foi percebido uma dificuldade em testar a funcionalidade da solução, pois a mesma não retorna o resultado esperado. 
